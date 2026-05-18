@@ -24,8 +24,8 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-white border-t border-slate-100 pt-12 pb-6">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-base-100 border-t border-base-200 pt-12 pb-6 text-base-content transition-colors duration-300">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 container">
 
         {/* Top Section: Brand, Links, Newsletter */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-10">
@@ -33,26 +33,26 @@ export default function Footer() {
           {/* Brand & Socials */}
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-md">
                 <BookOpen className="w-4 h-4 text-white" />
               </div>
-              <span className="text-lg font-bold text-primary">MediQueue</span>
+              <span className="text-xl font-bold text-primary tracking-tight">MediQueue</span>
             </div>
 
-            <p className="text-sm text-slate-600 leading-relaxed max-w-[200px]">
+            <p className="text-sm text-base-content/70 leading-relaxed max-w-[240px]">
               Your trusted platform to discover expert tutors and book personalized learning sessions online.
             </p>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 mt-6">
               {SocialIcons.map(({ Icon, label, href }) => (
                 <Link
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-7 h-7 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-500 flex items-center justify-center transition-colors"
+                  className="w-8 h-8 rounded-full bg-base-200 hover:bg-primary hover:text-white text-base-content/60 flex items-center justify-center transition-all"
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-4 h-4" />
                 </Link>
               ))}
             </div>
@@ -61,15 +61,15 @@ export default function Footer() {
           {/* Dynamic Link Groups */}
           {Object.entries(footerLinks).map(([group, links]) => (
             <div key={group}>
-              <p className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">
+              <p className="text-sm font-bold text-base-content mb-4 uppercase tracking-widest">
                 {group}
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link}>
                     <Link
                       href="#"
-                      className="text-sm text-slate-600 hover:text-primary transition-colors"
+                      className="text-sm text-base-content/60 hover:text-primary transition-colors"
                     >
                       {link}
                     </Link>
@@ -80,23 +80,23 @@ export default function Footer() {
           ))}
 
           {/* Newsletter Subscription */}
-          <div className="col-span-2 md:col-span-1">
-            <p className="text-sm font-bold text-slate-800 mb-1 uppercase tracking-wider">
+          <div className="col-span-2 md:col-span-2 lg:col-span-1">
+            <p className="text-sm font-bold text-base-content mb-2 uppercase tracking-widest">
               Stay Updated
             </p>
-            <p className="text-sm text-slate-600 mb-3">
-              Subscribe to get tips, updates and offers.
+            <p className="text-sm text-base-content/60 mb-4">
+              Subscribe to get tips and offers.
             </p>
-            <form className="flex gap-2">
+            <form className="flex flex-col gap-2">
               <input
                 type="email"
                 required
-                placeholder="Enter your email"
-                className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary min-w-0"
+                placeholder="Enter email"
+                className="w-full px-4 py-2 text-sm bg-base-200 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base-content"
               />
               <button
                 type="submit"
-                className="px-3 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors shrink-0"
+                className="w-full px-4 py-2 bg-primary text-primary-content text-sm font-semibold rounded-lg hover:bg-primary-dark transition-all"
               >
                 Subscribe
               </button>
@@ -105,17 +105,17 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section: Copyright, Payments, Security */}
-        <div className="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-600">
-            © {currentYear} MediQueue. All rights reserved.
+        <div className="border-t border-base-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-sm text-base-content/50">
+            © {currentYear} <span className="font-semibold">MediQueue</span>. All rights reserved.
           </p>
 
           {/* Payment Badges */}
-          <ul className="flex items-center gap-3">
+          <ul className="flex flex-wrap items-center justify-center gap-2">
             {paymentMethods.map((method) => (
               <li
                 key={method}
-                className="text-[11px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-2 py-1 rounded"
+                className="text-[10px] font-bold text-base-content/60 bg-base-200 border border-base-300 px-2 py-1 rounded tracking-wider uppercase"
               >
                 {method}
               </li>
@@ -123,8 +123,8 @@ export default function Footer() {
           </ul>
 
           {/* Security Badge */}
-          <div className="flex items-center gap-1.5 text-sm text-slate-600">
-            <IoShieldCheckmark className='text-green-700 text-xl' />
+          <div className="flex items-center gap-1.5 text-sm text-base-content/60 font-medium">
+            <IoShieldCheckmark className='text-success text-xl' />
             Secure Payments
           </div>
         </div>
