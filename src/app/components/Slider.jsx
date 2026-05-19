@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { GoGoal } from 'react-icons/go';
+import { GoGoal as GoGoalIcon } from 'react-icons/go';
 import { SiZoom } from 'react-icons/si';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -19,8 +19,7 @@ const slideData = [
     description: "Book expert tutors, attend interactive sessions, and reach your goals with MediQueue.",
     ctaText: "Browse Tutors",
     ctaLink: "/tutors",
-    bgImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1920",
-    studentImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    studentImage: "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: 2,
@@ -28,7 +27,6 @@ const slideData = [
     description: "Connect with industry professionals and top-tier educators specialized in your field.",
     ctaText: "Find Your Tutor",
     ctaLink: "/tutors",
-    bgImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1920",
     studentImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
   },
   {
@@ -37,8 +35,7 @@ const slideData = [
     description: "Get 1-on-1 personalized guidance from top mentors to solve your toughest assignments.",
     ctaText: "Start Learning",
     ctaLink: "/all-courses",
-    bgImage: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1920",
-    studentImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    studentImage: "https://images.unsplash.com/photo-1610484826625-ac2be7f1c8c1?auto=format&fit=crop&q=80&w=800",
   },
   {
     id: 4,
@@ -46,7 +43,6 @@ const slideData = [
     description: "Monitor your progress with weekly mock tests and detailed insights from your tutors.",
     ctaText: "View Dashboard",
     ctaLink: "/profile",
-    bgImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1920",
     studentImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800",
   }
 ]
@@ -74,20 +70,12 @@ const Slider = () => {
         {slideData.map((slide) => (
           <SwiperSlide key={slide.id} className="relative w-full h-full flex items-center">
 
-            <div className="absolute inset-0 z-0">
-              <Image
-                src={slide.bgImage}
-                alt="Background"
-                fill
-                priority
-                className="object-cover opacity-15 mix-blend-luminosity"
-                sizes='100vh'
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#070420] via-[#0f0a3e] to-[#160e54] opacity-95" />
-            </div>
+            {/* Background Gradient Layer */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#070420] via-[#0f0a3e] to-[#160e54] opacity-95" />
 
             <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center gap-8 py-12 lg:py-0">
 
+              {/* Text Content Area */}
               <div className="lg:col-span-5 text-white flex flex-col justify-center text-center lg:text-left">
                 <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-tight whitespace-pre-line">
                   {slide.title}
@@ -106,18 +94,27 @@ const Slider = () => {
                 </div>
               </div>
 
+              {/* Images & Badges Area */}
               <div className="lg:col-span-7 relative w-full h-[320px] sm:h-[400px] lg:h-[450px] flex items-center justify-center">
 
-                <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-4 border-indigo-500/20 shadow-2xl">
+                {/* Smooth Gradient Blend Circular Container */}
+                <div
+                  className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[650px] lg:h-[650px] rounded-full overflow-hidden"
+                  style={{
+                    maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 70%)',
+                    WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 70%)'
+                  }}
+                >
                   <Image
                     src={slide.studentImage}
                     alt="Student Learning"
                     fill
                     className="object-cover"
-                    sizes='100vh'
+                    sizes="(max-width: 768px) 100vw, 480px"
                   />
                 </div>
 
+                {/* Badge 1: Live Interactive */}
                 <div className="absolute left-2 sm:left-10 top-12 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl border border-white/20 flex items-center gap-3 animate-bounce [animation-duration:3s]">
                   <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
                     <SiZoom />
@@ -130,24 +127,23 @@ const Slider = () => {
                   </div>
                 </div>
 
+                {/* Badge 2: Goals */}
                 <div className="absolute right-2 sm:right-10 bottom-16 bg-white/95 backdrop-blur-md px-5 py-4 rounded-2xl shadow-xl border border-white/20 flex items-center gap-3 animate-bounce [animation-duration:4s]">
                   <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
-                    <GoGoal />
+                    <GoGoalIcon />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-gray-500 leading-none">Achieve</p>
                     <p className="text-sm font-bold text-gray-900 mt-1">Your Goals</p>
                   </div>
                 </div>
-
-                <div className="absolute top-8 right-1/4 opacity-20 text-white text-3xl hidden sm:block animate-pulse">💡</div>
-                <div className="absolute bottom-12 left-1/4 opacity-20 text-white text-3xl hidden sm:block">📈</div>
               </div>
 
             </div>
           </SwiperSlide>
         ))}
 
+        {/* Custom Navigation Buttons */}
         <button className="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center transition-all duration-300 border border-white/10 active:scale-95">
           <FiChevronLeft className="w-6 h-6" />
         </button>
@@ -155,11 +151,13 @@ const Slider = () => {
           <FiChevronRight className="w-6 h-6" />
         </button>
 
+        {/* Custom Pagination */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
           <div className="custom-swiper-pagination flex items-center gap-2" />
         </div>
       </Swiper>
 
+      {/* Global CSS for Swiper Active Dots */}
       <style jsx global>{`
         .custom-swiper-pagination .swiper-pagination-bullet {
           background: #ffffff !important;
