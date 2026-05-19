@@ -84,14 +84,14 @@ const Navbar = () => {
                 <input
                   type="text"
                   placeholder="Search tutors by subject or name..."
-                  className="w-full pl-9 pr-4 py-2 text-sm bg-base-200/50 border border-base-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 placeholder-base-content/40 transition-all text-base-content"
+                  className="w-full pl-9 pr-4 py-2 text-sm bg-base-200/50 border border-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 placeholder-base-content/40 transition-all text-base-content"
                 />
               </div>
             </div>
 
             <div className="hidden md:flex items-center gap-3">
               {/* DeskTop Theme Button */}
-              <label className="btn btn-ghost btn-circle swap swap-rotate w-9 h-9 min-h-0 bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-base-300 text-base-content flex items-center justify-center transition-colors">
+              <label className="btn btn-ghost btn-circle swap swap-rotate w-9 h-9 min-h-0 bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 text-base-content flex items-center justify-center transition-colors">
                 <input
                   type="checkbox"
                   onChange={handleThemeToggle}
@@ -103,13 +103,19 @@ const Navbar = () => {
                 <Sun className="swap-on w-4 h-4" />
               </label>
 
-              <button className="relative w-9 h-9 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 flex items-center justify-center transition-colors border border-base-300 text-base-content">
+              <button className="relative w-9 h-9 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 flex items-center justify-center transition-colors border border-indigo-600 text-base-content">
                 <Bell className="w-4 h-4" />
                 <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-base-100" />
               </button>
 
               {/* User */}
-              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-base-300 transition-colors">
+              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
+                <p className="text-xs font-semibold text-base-content leading-none p-2">Sign Up</p>
+              </button>
+              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
+                <p className="text-xs font-semibold text-base-content leading-none p-2">Sign In</p>
+              </button>
+              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
                 <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold">M</div>
                 <div className="text-left hidden lg:block">
                   <p className="text-xs font-semibold text-base-content leading-none">Masud</p>
@@ -159,7 +165,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search tutors..."
-                className="w-full pl-9 pr-4 py-2 text-sm bg-base-200 border border-base-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600/20 text-base-content placeholder-base-content/40"
+                className="w-full pl-9 pr-4 py-2 text-sm bg-base-200 border border-indigo-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600/20 text-base-content placeholder-base-content/40"
               />
             </div>
           </div>
