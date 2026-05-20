@@ -109,12 +109,16 @@ const Navbar = () => {
               </button>
 
               {/* User */}
-              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
-                <p className="text-xs font-semibold text-base-content leading-none p-2">Sign Up</p>
-              </button>
-              <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
-                <p className="text-xs font-semibold text-base-content leading-none p-2">Sign In</p>
-              </button>
+              <Link href="/sign-up">
+                <button className="flex items-center gap-2.5 pl-2 pr-2 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
+                  <p className="text-xs font-semibold text-base-content leading-none p-2">Sign Up</p>
+                </button>
+              </Link>
+              <Link href="/sign-in">
+                <button className="flex items-center gap-2.5 pl-2 pr-2 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
+                  <p className="text-xs font-semibold text-base-content leading-none p-2">Sign In</p>
+                </button>
+              </Link>
               <button className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-base-200/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 border border-indigo-600 transition-colors">
                 <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold">M</div>
                 <div className="text-left hidden lg:block">
