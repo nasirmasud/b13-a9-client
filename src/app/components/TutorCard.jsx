@@ -1,9 +1,10 @@
 import { Button, Card } from '@heroui/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FiBookOpen, FiBriefcase, FiCalendar, FiClock, FiHeart, FiLayers, FiMapPin } from 'react-icons/fi'
 
 const TutorCard = ({ tutor }) => {
-  const { image, tutorName, teachingMode, institution, subject, availability, totalSlot, startDate, address, district, hourlyFee } = tutor
+  const { _id, image, tutorName, teachingMode, institution, subject, availability, totalSlot, startDate, address, district, hourlyFee } = tutor
 
   return (
     <Card
@@ -79,11 +80,12 @@ const TutorCard = ({ tutor }) => {
           </p>
         </div>
 
-        <Button
-          className="bg-[#4f46e5] hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold rounded-full px-5 h-10 text-sm transition-all shadow-sm flex items-center justify-center"
-        >
-          Book Session
-        </Button>
+        <Link href={`/tutors/${_id}`}>
+          <Button
+            className="bg-[#4f46e5] hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold rounded-full px-5 h-10 text-sm transition-all shadow-sm flex items-center justify-center"
+          >
+            Book Session
+          </Button></Link>
       </div>
     </Card>
   )

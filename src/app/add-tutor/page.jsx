@@ -25,7 +25,7 @@ const AddTutorPage = () => {
     <div className="p-4 sm:p-6 md:p-10 w-full max-w-[1440px] mx-auto min-h-screen bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-zinc-50 transition-colors duration-200">
       {/* Header section */}
       <div className="mb-8 px-2">
-        <h1 className="text-3xl font-extrabold text-[#4f46e5] dark:text-indigo-400">
+        <h1 className="text-3xl font-extrabold text-primary dark:text-indigo-400">
           Become a MediQueue Expert Tutor
         </h1>
         <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">
@@ -167,7 +167,7 @@ const AddTutorPage = () => {
           <div className="pt-4 w-full">
             <Button
               type="submit"
-              className="rounded-full w-full bg-[#4f46e5] hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold shadow-md transition h-12 text-md flex items-center justify-center"
+              className="rounded-full w-full bg-primary hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold shadow-md transition h-12 text-md flex items-center justify-center"
             >
               Add Tutor
             </Button>

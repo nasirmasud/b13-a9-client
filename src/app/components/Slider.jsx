@@ -109,6 +109,9 @@ const Slider = () => {
                     src={slide.studentImage}
                     alt="Student Learning"
                     fill
+                    loading="eager"
+                    fetchPriority="high"
+                    priority
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 480px"
                   />
