@@ -1,23 +1,28 @@
 "use client"
 
+import { authClient } from "@/lib/auth-client";
 import { Button, Card, FieldError, Input, Label, ListBox, Select, TextField } from "@heroui/react";
 
 const AddTutorPage = () => {
+  const { data: session } = authClient.useSession();
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const tutorData = Object.fromEntries(formData.entries());
 
+    tutorData.email = session?.user?.email;
+    tutorData.addedBy = session?.user?.name;
+
     console.log("Submitting Tutor Data:", tutorData);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify(tutorData)
-    })
-    const data = await res.json()
+    });
+
+    const data = await res.json();
     console.log("Server Response:", data);
   }
 
