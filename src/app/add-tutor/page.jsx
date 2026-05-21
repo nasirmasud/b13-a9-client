@@ -2,9 +2,12 @@
 
 import { authClient } from "@/lib/auth-client";
 import { Button, Card, FieldError, Input, Label, ListBox, Select, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const AddTutorPage = () => {
   const { data: session } = authClient.useSession();
+  const router = useRouter();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -14,16 +17,24 @@ const AddTutorPage = () => {
     tutorData.email = session?.user?.email;
     tutorData.addedBy = session?.user?.name;
 
-    console.log("Submitting Tutor Data:", tutorData);
+    const toastId = toast.loading("Adding tutor...");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(tutorData)
-    });
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(tutorData)
+      });
 
-    const data = await res.json();
-    console.log("Server Response:", data);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data?.message || "Something went wrong");
+
+      toast.success("Tutor added successfully!", { id: toastId });
+      router.push("/tutors");
+    } catch (err) {
+      toast.error(err.message || "Failed to add tutor", { id: toastId });
+    }
   }
 
   return (

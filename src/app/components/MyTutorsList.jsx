@@ -3,6 +3,7 @@
 import { Calendar, GraduationCap, Settings, Star, Stethoscope, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function MyTutorsList({ initialTutors }) {
   const [tutors, setTutors] = useState(initialTutors);
@@ -10,7 +11,6 @@ export default function MyTutorsList({ initialTutors }) {
   const [deletingTutor, setDeletingTutor] = useState(null);
   const [formData, setFormData] = useState({});
 
-  // ── Edit Modal খোলা ──
   const openEditModal = (tutor) => {
     setEditingTutor(tutor);
     setFormData({
@@ -28,41 +28,53 @@ export default function MyTutorsList({ initialTutors }) {
     });
   };
 
-  // ── Update Submit ──
   const handleUpdate = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/tutors/${editingTutor._id}`,
-      {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(formData),
-      }
-    );
-    const data = await res.json();
-
-    if (data.modifiedCount > 0) {
-      // পেজ রিলোড ছাড়াই state আপডেট
-      setTutors((prev) =>
-        prev.map((t) =>
-          t._id === editingTutor._id ? { ...t, ...formData } : t
-        )
+    const toastId = toast.loading("Updating tutor...");
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/tutors/${editingTutor._id}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(formData),
+        }
       );
-      setEditingTutor(null);
+      const data = await res.json();
+
+      if (data.modifiedCount > 0) {
+        setTutors((prev) =>
+          prev.map((t) =>
+            t._id === editingTutor._id ? { ...t, ...formData } : t
+          )
+        );
+        setEditingTutor(null);
+        toast.success("Tutor updated successfully!", { id: toastId });
+      } else {
+        toast.error("No changes were made.", { id: toastId });
+      }
+    } catch {
+      toast.error("Failed to update tutor.", { id: toastId });
     }
   };
 
-  // ── Delete Confirm ──
   const handleDelete = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/tutors/${deletingTutor._id}`,
-      { method: "DELETE" }
-    );
-    const data = await res.json();
+    const toastId = toast.loading("Deleting tutor...");
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/tutors/${deletingTutor._id}`,
+        { method: "DELETE" }
+      );
+      const data = await res.json();
 
-    if (data.deletedCount > 0) {
-      // পেজ রিলোড ছাড়াই list থেকে সরাও
-      setTutors((prev) => prev.filter((t) => t._id !== deletingTutor._id));
-      setDeletingTutor(null);
+      if (data.deletedCount > 0) {
+        setTutors((prev) => prev.filter((t) => t._id !== deletingTutor._id));
+        setDeletingTutor(null);
+        toast.success("Tutor deleted successfully!", { id: toastId });
+      } else {
+        toast.error("Failed to delete tutor.", { id: toastId });
+      }
+    } catch {
+      toast.error("Something went wrong.", { id: toastId });
     }
   };
 
@@ -133,9 +145,6 @@ export default function MyTutorsList({ initialTutors }) {
         ))}
       </div>
 
-      {/* ==========================================
-          EDIT MODAL
-          ========================================== */}
       {editingTutor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
           <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 border border-gray-100 dark:border-zinc-800">
@@ -205,10 +214,6 @@ export default function MyTutorsList({ initialTutors }) {
           </div>
         </div>
       )}
-
-      {/* ==========================================
-          DELETE CONFIRM MODAL
-          ========================================== */}
       {deletingTutor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
           <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-md p-6 sm:p-8 border border-gray-100 dark:border-zinc-800">
@@ -218,7 +223,7 @@ export default function MyTutorsList({ initialTutors }) {
               </div>
               <h3 className="text-lg font-black text-gray-900 dark:text-white">Delete Tutor?</h3>
               <p className="text-sm text-gray-400 dark:text-zinc-500 leading-relaxed">
-                <span className="font-bold text-gray-700 dark:text-zinc-300">{deletingTutor.tutorName}</span> কে ডিলিট করলে আর ফিরিয়ে আনা যাবে না।
+                <span className="font-bold text-gray-700 dark:text-zinc-300">{deletingTutor.tutorName}</span> Are You Sure You Want To Delete
               </p>
             </div>
             <div className="flex justify-center gap-3 mt-6">

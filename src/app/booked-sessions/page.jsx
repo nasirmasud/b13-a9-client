@@ -27,9 +27,6 @@ export default async function BookedSessionsPage() {
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-zinc-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="max-w-4xl mx-auto">
 
-        {/* ==========================================
-            HEADER SECTION (ইউজার প্রোফাইল ও সামারি)
-            ========================================== */}
         <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-gray-100 dark:border-zinc-800 shadow-sm mb-10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div>
@@ -52,9 +49,7 @@ export default async function BookedSessionsPage() {
           </div>
         </div>
 
-        {/* ==========================================
-            MAIN CONTENT SECTION
-            ========================================== */}
+
         <div className="space-y-6">
           <div className="flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-4">
             <h2 className="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight">
@@ -65,7 +60,6 @@ export default async function BookedSessionsPage() {
             </span>
           </div>
 
-          {/* 🛠️ মেইন ফিক্স: বুকিং সংখ্যা ০ হলে এম্পটি স্টেট দেখাবে */}
           {bookings.length === 0 ? (
             <div className="bg-white dark:bg-zinc-900 rounded-[2rem] border border-gray-100 dark:border-zinc-800/80 p-12 flex flex-col items-center justify-center text-center shadow-sm">
               <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-4 shadow-inner">
@@ -78,14 +72,13 @@ export default async function BookedSessionsPage() {
                 You haven&apos;t scheduled any mentorship sessions. Find an expert medical tutor to power up your preparation.
               </p>
               <Link
-                href="/tutors" // তোর প্রজেক্টের ব্রাউজ বা অল টিউটর পেজের রুট লিংক দিবি এখানে
+                href="/tutors"
                 className="inline-flex items-center gap-1.5 mt-6 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl transition-all shadow-md shadow-indigo-600/10 group"
               >
                 Browse Expert Tutors <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           ) : (
-            /* 📄 বুকিং থাকলে লিস্ট লেআউট রেন্ডার হবে */
             <div className="flex flex-col gap-4">
               {bookings.map((booking) => (
                 <div
