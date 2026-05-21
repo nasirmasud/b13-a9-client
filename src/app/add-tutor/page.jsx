@@ -10,7 +10,7 @@ const AddTutorPage = () => {
 
     console.log("Submitting Tutor Data:", tutorData);
 
-    const res = await fetch('http://localhost:5000/tutors', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

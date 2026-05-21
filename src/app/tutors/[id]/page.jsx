@@ -17,7 +17,7 @@ import {
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params
 
-  const res = await fetch(`http://localhost:5000/tutors/${id}`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`)
   const tutorData = await res.json()
 
   const { _id, tutorName, subject, image, availability, hourlyFee, totalSlot, startDate, teachingMode, district, address, institution, experienceYears } = tutorData
