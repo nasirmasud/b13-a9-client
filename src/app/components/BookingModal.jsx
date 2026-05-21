@@ -7,10 +7,30 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiDollarSign, FiX } from "react-icons/fi";
 
+const API = process.env.NEXT_PUBLIC_API_URL;
+
+const postBooking = (data) =>
+  fetch(`${API}/tutor-bookings`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+const decreaseSlot = (tutorId) =>
+  fetch(`${API}/tutors/${tutorId}/decrease-slot`, { method: "PATCH" });
+
 const BookingModal = ({ tutorData }) => {
-  const { _id: tutorId, image, tutorName, hourlyFee, availability, startDate: tutorStartDate } = tutorData;
+  const {
+    _id: tutorId,
+    image,
+    tutorName,
+    hourlyFee,
+    availability,
+    startDate: tutorStartDate,
+  } = tutorData;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
@@ -19,21 +39,14 @@ const BookingModal = ({ tutorData }) => {
   const [selectedDate, setSelectedDate] = useState(parseDate(defaultDateString));
 
   const handleConfirmBooking = async () => {
-    if (!selectedDate) {
-      toast.error("Select a valid date for booking.");
-      return;
-    }
-
-    if (!user) {
-      toast.error("Please log in first to book an appointment.");
-      return;
-    }
+    if (!selectedDate) return toast.error("Select a valid date for booking.");
+    if (!user) return toast.error("Please log in first to book an appointment.");
 
     const bookingData = {
-      userId: user?.id,
-      userName: user?.name,
-      userEmail: user?.email,
-      userImage: user?.image,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userImage: user.image,
       tutorId,
       image,
       tutorName,
@@ -41,27 +54,34 @@ const BookingModal = ({ tutorData }) => {
       bookingDate: new Date(selectedDate),
     };
 
+    setIsLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutor-bookings`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(bookingData),
-      });
+      const res = await postBooking(bookingData);
 
-      if (res.ok) {
-        toast.success("Your appointment booking was successful!");
-        setIsOpen(false);
-      } else {
+      if (!res.ok) {
         toast.error("Booking failed, please try again.");
+        return;
       }
+
+      const slotRes = await decreaseSlot(tutorId);
+      if (!slotRes.ok) {
+        const err = await slotRes.json();
+        console.error("Slot error:", err.message);
+      }
+
+      toast.success("Your appointment booking was successful!");
+      setIsOpen(false);
     } catch (error) {
       console.error("Booking Error:", error);
       toast.error("Failed to connect to the server!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
+      {/* Trigger Button */}
       <Button
         onClick={() => setIsOpen(true)}
         className="w-full h-14 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-full shadow-lg transition-all"
@@ -69,11 +89,12 @@ const BookingModal = ({ tutorData }) => {
         Book Appointment Now
       </Button>
 
+      {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-
           <div className="light relative w-full max-w-md bg-white text-gray-900 border border-gray-200 rounded-3xl shadow-2xl overflow-hidden">
 
+            {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-5 right-5 p-1.5 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition"
@@ -81,28 +102,29 @@ const BookingModal = ({ tutorData }) => {
               <FiX className="w-5 h-5" />
             </button>
 
+            {/* Header */}
             <div className="p-6 border-b border-gray-100 bg-white">
               <h3 className="text-xl font-bold text-gray-900">Confirm Your Appointment</h3>
-              <p className="text-xs text-gray-500 font-normal mt-1">Review details and pick your preferred date</p>
+              <p className="text-xs text-gray-500 mt-1">Review details and pick your preferred date</p>
             </div>
 
+            {/* Body */}
             <div className="p-6 space-y-5 bg-white">
+
+              {/* Tutor Info */}
               <div className="p-4 bg-gray-50 rounded-2xl space-y-2.5 text-sm border border-gray-100">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Tutor Name:</span>
-                  <span className="font-bold text-gray-900">{tutorName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 flex items-center gap-1.5"><FiClock /> Availability:</span>
-                  <span className="font-semibold text-gray-700">{availability}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500 flex items-center gap-1.5"><FiDollarSign /> Hourly Fee:</span>
-                  <span className="font-bold text-indigo-600">৳{hourlyFee}/hr</span>
-                </div>
+                <InfoRow label="Tutor Name" value={tutorName} bold />
+                <InfoRow label="Availability" value={availability} icon={<FiClock />} />
+                <InfoRow
+                  label="Hourly Fee"
+                  value={`৳${hourlyFee}/hr`}
+                  icon={<FiDollarSign />}
+                  valueClass="text-indigo-600 font-bold"
+                />
               </div>
 
-              <div className="space-y-2 flex flex-col bg-white">
+              {/* Date Picker */}
+              <div className="flex flex-col space-y-2 bg-white">
                 <DateField
                   defaultValue={parseDate(defaultDateString)}
                   onChange={setSelectedDate}
@@ -127,16 +149,19 @@ const BookingModal = ({ tutorData }) => {
               </div>
             </div>
 
+            {/* Footer */}
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50/80">
               <Button
                 variant="flat"
                 onClick={() => setIsOpen(false)}
+                disabled={isLoading}
                 className="rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleConfirmBooking}
+                isLoading={isLoading}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md px-6"
               >
                 Confirm Booking
@@ -149,5 +174,16 @@ const BookingModal = ({ tutorData }) => {
     </>
   );
 };
+
+const InfoRow = ({ label, value, icon, bold, valueClass = "" }) => (
+  <div className="flex justify-between">
+    <span className="text-gray-500 flex items-center gap-1.5">
+      {icon} {label}:
+    </span>
+    <span className={`font-semibold text-gray-700 ${bold ? "font-bold text-gray-900" : ""} ${valueClass}`}>
+      {value}
+    </span>
+  </div>
+);
 
 export default BookingModal;
