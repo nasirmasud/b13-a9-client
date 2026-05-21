@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiDollarSign, FiX } from "react-icons/fi";
 
 const BookingModal = ({ tutorData }) => {
-  const { _id: tutorId, tutorName, hourlyFee, availability, startDate: tutorStartDate } = tutorData;
+  const { _id: tutorId, image, tutorName, hourlyFee, availability, startDate: tutorStartDate } = tutorData;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,6 +35,7 @@ const BookingModal = ({ tutorData }) => {
       userEmail: user?.email,
       userImage: user?.image,
       tutorId,
+      image,
       tutorName,
       fee: hourlyFee,
       bookingDate: new Date(selectedDate),
