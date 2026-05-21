@@ -4,9 +4,12 @@ import { authClient } from "@/lib/auth-client";
 import { Button, DateField, Label } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiDollarSign, FiX } from "react-icons/fi";
 
-const BookingModal = ({ tutorName, hourlyFee, tutorId, availability, tutorStartDate }) => {
+const BookingModal = ({ tutorData }) => {
+  const { _id: tutorId, tutorName, hourlyFee, availability, startDate: tutorStartDate } = tutorData;
+
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: session } = authClient.useSession();
@@ -17,20 +20,14 @@ const BookingModal = ({ tutorName, hourlyFee, tutorId, availability, tutorStartD
 
   const handleConfirmBooking = async () => {
     if (!selectedDate) {
-      alert("Select a valid date for booking.");
+      toast.error("Select a valid date for booking.");
       return;
     }
 
     if (!user) {
-      alert("Please log in first to book an appointment.");
+      toast.error("Please log in first to book an appointment.");
       return;
     }
-
-    const formattedDate = new Date(
-      selectedDate.year,
-      selectedDate.month - 1,
-      selectedDate.day
-    );
 
     const bookingData = {
       userId: user?.id,
@@ -40,28 +37,25 @@ const BookingModal = ({ tutorName, hourlyFee, tutorId, availability, tutorStartD
       tutorId,
       tutorName,
       fee: hourlyFee,
-      bookingDate: formattedDate,
+      bookingDate: new Date(selectedDate),
     };
 
-    console.log(bookingData);
-
-
     try {
-      const res = await fetch(`h${process.env.NEXT_PUBLIC_API_URL}/booking`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutor-bookings`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(bookingData),
       });
 
       if (res.ok) {
-        alert("Your appointment booking was successful!");
+        toast.success("Your appointment booking was successful!");
         setIsOpen(false);
       } else {
-        alert("Booking failed, please try again.");
+        toast.error("Booking failed, please try again.");
       }
     } catch (error) {
       console.error("Booking Error:", error);
-      alert("Failed to connect to the server!");
+      toast.error("Failed to connect to the server!");
     }
   };
 

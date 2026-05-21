@@ -153,11 +153,7 @@ const TutorDetailsPage = async ({ params }) => {
                       <span className="font-bold text-red-500">{totalSlot} Slots</span>
                     </div>
                     <div className="pt-2 w-full">
-                      <BookingModal
-                        tutorId={_id}
-                        tutorName={tutorName}
-                        hourlyFee={hourlyFee}
-                        availability={availability}
+                      <BookingModal tutorData={tutorData}
                       />
                     </div>
 
