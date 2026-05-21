@@ -1,4 +1,5 @@
-import { Button, Card, Chip } from "@heroui/react";
+import BookingModal from "@/app/components/BookingModal";
+import { Card, Chip } from "@heroui/react";
 import Image from "next/image";
 import Link from 'next/link';
 import {
@@ -11,6 +12,7 @@ import {
   FiMapPin,
   FiMonitor, FiUser
 } from "react-icons/fi";
+
 
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params
@@ -108,9 +110,7 @@ const TutorDetailsPage = async ({ params }) => {
               </h2>
               <hr className="border-gray-100 dark:border-zinc-200" />
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-lg italic">
-
                 Passionate about simplifying complex {subject} concepts for medical students. With {experienceYears} years of experience at {institution}, I focus on exam-oriented preparation and clinical correlations.
-
               </p>
               <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -152,18 +152,16 @@ const TutorDetailsPage = async ({ params }) => {
                       <span className="flex items-center gap-2 text-zinc-500"><FiLayers /> Slots Remaining</span>
                       <span className="font-bold text-red-500">{totalSlot} Slots</span>
                     </div>
-                  </div>
-                </div>
+                    <div className="pt-2 w-full">
+                      <BookingModal
+                        tutorId={_id}
+                        tutorName={tutorName}
+                        hourlyFee={hourlyFee}
+                        availability={availability}
+                      />
+                    </div>
 
-                <div className="pt-4 space-y-3">
-                  <Button
-                    className="w-full h-14 bg-primary hover:bg-[#4338ca] text-white font-bold text-lg rounded-full shadow-lg transition-all"
-                  >
-                    Book Appointment Now
-                  </Button>
-                  <p className="text-[10px] text-center text-zinc-400 font-medium">
-                    Secure payment powered by MediQueue
-                  </p>
+                  </div>
                 </div>
               </div>
             </Card>

@@ -5,6 +5,7 @@ import { Check } from "@gravity-ui/icons";
 import { Button, Card, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -19,9 +20,6 @@ const SignInPage = () => {
       password: user.password,
     });
 
-    console.log(data, error);
-
-
     if (data) {
       router.push("/");
     }
@@ -31,8 +29,19 @@ const SignInPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (err) {
+      alert("Google sign in failed. Please try again.");
+    }
+  };
+
   return (
-    <div className="w-full h-[calc(100vh-70px)] bg-gray-50 dark:bg-zinc-950 flex flex-col items-center justify-center p-4 transition-colors duration-200 overflow-hidden">
+    <div className="w-full bg-gray-50 dark:bg-zinc-950 flex flex-col items-center justify-center py-12 sm:py-16 p-4 transition-colors duration-200">
 
       <Card className="w-full max-w-lg p-6 sm:p-10 border border-gray-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xl rounded-3xl mx-auto">
 
@@ -83,10 +92,10 @@ const SignInPage = () => {
           </TextField>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full">
+          <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full">
             <Button
               type="submit"
-              className="rounded-full flex-1 bg-[#4f46e5] hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-bold h-12 text-sm flex items-center justify-center gap-2 shadow-md transition-all"
+              className="rounded-full flex-1 bg-primary hover:bg-[#4338ca] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-bold h-12 text-sm flex items-center justify-center gap-2 shadow-md transition-all"
             >
               <Check className="w-4 h-4" />
               Sign In
@@ -100,9 +109,24 @@ const SignInPage = () => {
             </Button>
           </div>
 
+          <div className="relative flex py-2 items-center">
+            <div className="grow border-t border-gray-200 dark:border-zinc-200"></div>
+            <span className="shrink mx-4 text-gray-400 text-xs">Or continue with</span>
+            <div className="grow border-t border-gray-200 dark:border-zinc-200"></div>
+          </div>
+
+          <Button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full h-12 rounded-full border-2 border-indigo-600 dark:border-indigo-500 bg-transparent text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 dark:hover:bg-indigo-600 hover:text-white dark:hover:text-white font-bold text-sm flex items-center justify-center gap-3 transition-all group"
+          >
+            <FcGoogle className="w-4 h-4 transition-colors" />
+            Sign in with Google
+          </Button>
+
           {/* Redirect to Sign Up */}
           <p className="text-xs text-center text-gray-400 mt-2">
-            Don`&apos;`t have an account yet?{" "}
+            Don`&apos;an account yet?{" "}
             <Link href="/sign-up" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
               Create an account
             </Link>
