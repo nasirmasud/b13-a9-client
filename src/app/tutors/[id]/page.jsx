@@ -1,4 +1,28 @@
 import BookingModal from "@/app/components/BookingModal";
+import { createPageMetadata } from "@/lib/site-metadata";
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      return createPageMetadata("Tutor Details");
+    }
+
+    const tutor = await res.json();
+    const name = tutor?.tutorName?.trim();
+
+    return createPageMetadata(
+      name ? `${name} – ${tutor.subject || "Tutor"}` : "Tutor Details"
+    );
+  } catch {
+    return createPageMetadata("Tutor Details");
+  }
+}
 import { Card, Chip } from "@heroui/react";
 import Image from "next/image";
 import Link from 'next/link';

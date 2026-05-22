@@ -1,8 +1,9 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
+import UserProfileDropdown from '@/app/components/UserProfileDropdown';
 import { Avatar } from '@heroui/react';
-import { BookOpen, Menu, Moon, Sun, X } from 'lucide-react';
+import { BookOpen, LogOut, Menu, Moon, Sun, User, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -24,8 +25,8 @@ const Navbar = () => {
   const [theme, setTheme] = useState('light');
 
   const handleSignOut = async () => {
-    await authClient.signOut()
-  }
+    await authClient.signOut();
+  };
 
   const visibleNavItems = navItems.filter(item => {
     if (item.protected && !user) return false;
@@ -109,21 +110,7 @@ const Navbar = () => {
               {isPending ? (
                 <div className="w-24 h-8 bg-gray-200 dark:bg-zinc-800 animate-pulse rounded-full" />
               ) : user ? (
-                <div className="flex items-center gap-3">
-                  <button onClick={handleSignOut} className="flex items-center justify-center px-4 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 border border-indigo-600 dark:border-indigo-400 text-xs font-semibold text-gray-700 dark:text-zinc-300 hover:ring-2 hover:ring-indigo-600/20 dark:hover:ring-indigo-400/20 transition-all">
-                    Sign Out
-                  </button>
-
-                  <button className="flex items-center gap-2.5 pl-1 pr-3 h-9 rounded-full bg-gray-100 dark:bg-zinc-900 border border-indigo-600 dark:border-indigo-400 hover:ring-2 hover:ring-indigo-600/20 dark:hover:ring-indigo-400/20 transition-all">
-                    <Avatar className="w-7 h-7">
-                      <Avatar.Image alt={user?.name || "User"} src={user?.image} referrerPolicy='no-referrer' />
-                      <Avatar.Fallback>{getFallbackName()}</Avatar.Fallback>
-                    </Avatar>
-                    <div className="text-left hidden lg:block">
-                      <p className="text-xs font-semibold text-gray-900 dark:text-white leading-none">{user?.name}</p>
-                    </div>
-                  </button>
-                </div>
+                <UserProfileDropdown user={user} />
               ) : (
                 <div className="flex items-center gap-2 shrink-0">
                   <Link href="/sign-up" className="shrink-0">
@@ -201,8 +188,18 @@ const Navbar = () => {
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name}</p>
                     </div>
                   </div>
-                  <button onClick={() => { setMobileOpen(false); handleSignOut(); }} className="w-full py-2.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 text-sm font-bold transition-colors border border-red-100 dark:border-red-900/30">
-                    Sign Out
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileOpen(false)}
+                    className="w-full py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-gray-700 dark:text-zinc-200 text-sm font-bold transition-colors border border-gray-200 dark:border-zinc-700 flex items-center justify-center gap-2"
+                  >
+                    <User className="w-4 h-4" /> Profile
+                  </Link>
+                  <button
+                    onClick={() => { setMobileOpen(false); handleSignOut(); }}
+                    className="w-full py-2.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 text-sm font-bold transition-colors border border-red-100 dark:border-red-900/30 flex items-center justify-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" /> Sign Out
                   </button>
                 </>
               ) : (

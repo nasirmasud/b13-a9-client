@@ -1,4 +1,7 @@
 import { auth } from "@/lib/auth";
+import { createPageMetadata, PAGE_TITLES } from "@/lib/site-metadata";
+
+export const metadata = createPageMetadata(PAGE_TITLES.bookedSessions);
 import { ArrowRight, Calendar, Clock, Inbox, Mail, Stethoscope, Video } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";

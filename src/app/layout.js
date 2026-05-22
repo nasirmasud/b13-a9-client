@@ -11,7 +11,10 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "MediQueue – Learn Better. Achieve More.",
+  title: {
+    default: "MediQueue – Learn Better. Achieve More.",
+    template: "%s | MediQueue",
+  },
   description:
     "Book expert tutors, attend live sessions, and achieve your academic goals with MediQueue.",
 };
