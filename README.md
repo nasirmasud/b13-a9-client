@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+````markdown
+# 🩺 MediQueue — Medical Tutoring Marketplace
 
-## Getting Started
+MediQueue is a specialized Next.js web application designed for medical students to find, book, and manage 1-on-1 tutoring sessions with expert medical mentors in core subjects like Anatomy, Physiology, Biochemistry, and more.
 
-First, run the development server:
+The platform connects seamlessly to an external REST API and uses Better Auth paired with MongoDB to ensure secure, reliable account and session management.
+
+🔗 **Live Deployment:** [https://b13-a9-client.vercel.app](https://b13-a9-client.vercel.app)
+
+---
+
+## 🚀 Key Features
+
+### 📡 Home & Marketing
+
+- **Hero Carousel:** Interactive banner built with Swiper featuring autoplay, smooth navigation, and direct call-to-actions (CTAs).
+- **Featured Tutors:** Dynamic showcase highlighting top-rated medical mentors loaded straight from the API.
+- **3-Step Workflow:** Interactive guide illustrating the core user journey: _Find Specialist → Book Date → Live Learning_.
+- **Trust Badges:** Highlights verification status, automated scheduling, and high-quality mentorship.
+
+### 🔍 Browse & Discover Tutors
+
+- **Advanced Search:** Real-time search filtered by tutor name, subject, or institution with built-in query debouncing.
+- **Dynamic Filters:** Refine choices effortlessly by Subject, City (District), Price Range (BDT), and Teaching Mode (_Online / Offline / Both_).
+- **Detailed Profiles:** In-depth tutor detail pages featuring stats, biographical about section, and an integrated booking widget.
+- **Favorites System:** Interactive "Favorite" toggle directly on tutor cards (UI-state).
+
+### 📅 Booking & Slot Management
+
+- **Appointment Modal:** Modal with date selection and session confirmation.
+- **Automated Slot Deductions:** Real-time update that automatically decreases available tutor slots upon successful booking.
+- **Student Dashboard:** "My Booked Sessions" tab to track active bookings, fees, and reservation statuses.
+- **Cancellation Support:** Immediate booking cancellation with built-in confirmation dialogs.
+
+### 👩‍🏫 Tutor Listings (Authenticated Users)
+
+- **Creation Form:** Add comprehensive tutor listings including image URL, experience, subjects, location, and fees.
+- **Personal Management Panel:** "My Tutors" hub displaying all active listings published by the logged-in user.
+- **Full CRUD Operations:** Edit listing details via inline modals and safely delete listings with confirmation states.
+
+### 🔐 Authentication & Security
+
+- **Credential Sign-In:** Standard Email and Password registration/login flow.
+- **Social Auth:** One-click Google OAuth login integration.
+- **Route Protection:** Strict middleware guard rails blocking unauthenticated access to `/add-tutor`, `/my-tutors`, and `/booked-sessions`.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer                    | Technology                                               |
+| :----------------------- | :------------------------------------------------------- |
+| **Framework**            | Next.js 16 (App Router), React 19                        |
+| **Styling & UI**         | Tailwind CSS 4, DaisyUI, HeroUI components               |
+| **Authentication**       | Better Auth + MongoDB adapter                            |
+| **State & API Handling** | TanStack Query (React Query) / Axios                     |
+| **UI Enhancements**      | Swiper (Carousel), Lucide React (Icons), React Hot Toast |
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+
+Make sure you have an `.env.local` file configured in your client root folder with the following variables:
+
+```env
+NEXT_PUBLIC_API_URL=your_backend_api_url
+NEXT_PUBLIC_BETTER_AUTH_URL=your_auth_base_url
+```
+````
+
+### Installation Steps
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone [https://github.com/your-username/mediqueue-client.git](https://github.com/your-username/mediqueue-client.git)
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install the necessary dependencies:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+   npm install
+   # or
+   yarn install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
 
-## Learn More
+3. Run the development server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+   npm run dev
+   # or
+   yarn dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) inside your browser to explore the app locally!
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 Deployment & Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Build:** `npm run build` — Compiles the production application.
+- **Start:** `npm run start` — Starts a Next.js production server.
+- **Lint:** `npm run lint` — Runs integrated ESLint checks.
+
+This project is fully optimized for hosting on the **Vercel Platform**.
+
+```
+
+
+```
