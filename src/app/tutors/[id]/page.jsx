@@ -1,4 +1,26 @@
 import BookingModal from "@/app/components/BookingModal";
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      return { title: "Tutor Details" };
+    }
+
+    const tutor = await res.json();
+    const name = tutor?.tutorName?.trim();
+
+    return {
+      title: name ? `${name} – ${tutor.subject || "Tutor"}` : "Tutor Details",
+    };
+  } catch {
+    return { title: "Tutor Details" };
+  }
+}
 import { Card, Chip } from "@heroui/react";
 import Image from "next/image";
 import Link from 'next/link';

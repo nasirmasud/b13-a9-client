@@ -1,4 +1,7 @@
 import { auth } from "@/lib/auth";
+import { createPageMetadata, PAGE_TITLES } from "@/lib/site-metadata";
+
+export const metadata = createPageMetadata(PAGE_TITLES.myTutors);
 import { ArrowRight, Inbox, Mail } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
