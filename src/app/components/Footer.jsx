@@ -1,4 +1,5 @@
 import { BookOpen } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FaFacebook, FaInstagram, FaLinkedin, FaXTwitter, FaYoutube } from 'react-icons/fa6'
 import { IoShieldCheckmark } from 'react-icons/io5'
@@ -18,7 +19,7 @@ const SocialIcons = [
   { Icon: FaYoutube, label: 'YouTube', href: '#' },
 ]
 
-const paymentMethods = ['bKash', 'Nagad', 'Rocket', 'VISA', 'Mastercard']
+const paymentMethods = [{ name: 'bkash', src: '/bkash.png' }, { name: 'nagad', src: '/nagad.png' }, { name: 'rocket', src: '/rocket.svg' }, { name: 'vias', src: '/visa.svg' }, { name: 'master', src: '/master.svg' }]
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -114,10 +115,10 @@ export default function Footer() {
           <ul className="flex flex-wrap items-center justify-center gap-2">
             {paymentMethods.map((method) => (
               <li
-                key={method}
-                className="text-[10px] font-bold text-base-content/60 bg-base-200 border border-base-300 px-2 py-1 rounded tracking-wider uppercase"
+                key={method.name}
+                className="bg-transparent  px-2 py-1 rounded"
               >
-                {method}
+                <Image src={method.src} alt={method.name} width={48} height={48} className='object-contain h-6 w-auto' />
               </li>
             ))}
           </ul>
