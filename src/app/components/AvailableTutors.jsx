@@ -1,7 +1,9 @@
 import TutorCard from "../components/TutorCard";
 
 const AvailableTutors = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featured-tutors`, {
+    cache: "no-store"
+  });
   const tutors = await res.json();
 
   return (
