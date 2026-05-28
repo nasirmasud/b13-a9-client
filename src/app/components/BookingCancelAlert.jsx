@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchTutorBookings } from "@/lib/tutor-bookings-api.client";
 import { AlertDialog, Button } from "@heroui/react";
 import toast from "react-hot-toast";
 
@@ -8,9 +9,8 @@ export function BookingCancelAlert({ bookingId, onCancel }) {
   const handleCancelBooking = async () => {
     const toastId = toast.loading("Cancelling booking...");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutor-bookings/${bookingId}`, {
+      const res = await fetchTutorBookings(`/${bookingId}`, {
         method: "DELETE",
-        headers: { "content-type": "application/json" }
       });
       const data = await res.json();
 

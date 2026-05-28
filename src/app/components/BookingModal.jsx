@@ -1,6 +1,8 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { toBookingDateISO } from "@/lib/booking-date";
+import { fetchTutorBookings } from "@/lib/tutor-bookings-api.client";
 import { Button, DateField, Label } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 import { useState } from "react";
@@ -8,13 +10,6 @@ import toast from "react-hot-toast";
 import { FiCalendar, FiClock, FiDollarSign, FiX } from "react-icons/fi";
 
 const API = process.env.NEXT_PUBLIC_API_URL;
-
-const postBooking = (data) =>
-  fetch(`${API}/tutor-bookings`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(data),
-  });
 
 const decreaseSlot = (tutorId) =>
   fetch(`${API}/tutors/${tutorId}/decrease-slot`, { method: "PATCH" });
@@ -42,6 +37,11 @@ const BookingModal = ({ tutorData }) => {
     if (!selectedDate) return toast.error("Select a valid date for booking.");
     if (!user) return toast.error("Please log in first to book an appointment.");
 
+    const bookingDate = toBookingDateISO(selectedDate);
+    if (!bookingDate) {
+      return toast.error("Select a valid date for booking.");
+    }
+
     const bookingData = {
       userId: user.id,
       userName: user.name,
@@ -51,15 +51,19 @@ const BookingModal = ({ tutorData }) => {
       image,
       tutorName,
       fee: hourlyFee,
-      bookingDate: new Date(selectedDate),
+      bookingDate,
     };
 
     setIsLoading(true);
     try {
-      const res = await postBooking(bookingData);
+      const res = await fetchTutorBookings("", {
+        method: "POST",
+        body: JSON.stringify(bookingData),
+      });
 
       if (!res.ok) {
-        toast.error("Booking failed, please try again.");
+        const err = await res.json().catch(() => ({}));
+        toast.error(err?.message || "Booking failed, please try again.");
         return;
       }
 
@@ -73,6 +77,10 @@ const BookingModal = ({ tutorData }) => {
       setIsOpen(false);
     } catch (error) {
       console.error("Booking Error:", error);
+      if (error.message === "Unauthorized") {
+        toast.error("Please log in first to book an appointment.");
+        return;
+      }
       toast.error("Failed to connect to the server!");
     } finally {
       setIsLoading(false);

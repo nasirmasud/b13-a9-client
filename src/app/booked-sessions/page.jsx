@@ -1,12 +1,13 @@
 import { auth } from "@/lib/auth";
 import { createPageMetadata, PAGE_TITLES } from "@/lib/site-metadata";
-
-export const metadata = createPageMetadata(PAGE_TITLES.bookedSessions);
+import { fetchTutorBookings } from "@/lib/tutor-bookings-api.server";
 import { ArrowRight, Calendar, Clock, Inbox, Mail, Stethoscope, Video } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { BookingCancelAlert } from "../components/BookingCancelAlert";
+
+export const metadata = createPageMetadata(PAGE_TITLES.bookedSessions);
 
 export default async function BookedSessionsPage() {
   const session = await auth.api.getSession({
@@ -15,8 +16,17 @@ export default async function BookedSessionsPage() {
 
   const user = session?.user;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutor-bookings/${user?.id}`);
-  const bookings = await res.json();
+  let bookings = [];
+  if (user?.id) {
+    try {
+      const res = await fetchTutorBookings(`/${user.id}`);
+      if (res.ok) {
+        bookings = await res.json();
+      }
+    } catch {
+      bookings = [];
+    }
+  }
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
