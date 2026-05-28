@@ -1,4 +1,3 @@
-````markdown
 # 🩺 MediQueue — Medical Tutoring Marketplace
 
 MediQueue is a specialized Next.js web application designed for medical students to find, book, and manage 1-on-1 tutoring sessions with expert medical mentors in core subjects like Anatomy, Physiology, Biochemistry, and more.
@@ -68,7 +67,6 @@ Make sure you have an `.env.local` file configured in your client root folder wi
 NEXT_PUBLIC_API_URL=your_backend_api_url
 NEXT_PUBLIC_BETTER_AUTH_URL=your_auth_base_url
 ```
-````
 
 ### Installation Steps
 
@@ -95,7 +93,7 @@ NEXT_PUBLIC_BETTER_AUTH_URL=your_auth_base_url
    # or
    yarn dev
 
-```
+
 
 Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) inside your browser to explore the app locally!
 
@@ -108,8 +106,5 @@ Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:30
 - **Lint:** `npm run lint` — Runs integrated ESLint checks.
 
 This project is fully optimized for hosting on the **Vercel Platform**.
-
-```
-
 
 ```
